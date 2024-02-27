@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { Command } from './command.interface.js';
-import { isPackageJSONConfig } from '../../shared/libs/index.js';
+import { isPackageJSONConfig } from '../../shared/libs/file-reader/index.js';
 
 export class VersionCommand implements Command {
   constructor(

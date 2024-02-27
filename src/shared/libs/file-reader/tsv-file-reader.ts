@@ -1,52 +1,36 @@
-import { readFileSync } from 'node:fs';
+import { EventEmitter } from 'node:events';
+import { createReadStream } from 'node:fs';
 import { FileReader } from './file-reader.interface.js';
-import { Convenience, Conveniences, HousingType, HousingTypes, RentalOffer, UserType } from '../../types/index.js';
-import { formatCoordinates } from '../../helpers/format-coordinates.js';
 
-export class TSVFileReader implements FileReader {
-  private rowData = '';
+const CHUNK_SIZE = 16384;
 
-  constructor(
-    private readonly filePath: string
-  ) { }
-
-  public read(): void {
-    this.rowData = readFileSync(this.filePath, 'utf-8');
+export class TSVFileReader extends EventEmitter implements FileReader {
+  constructor(private readonly filePath: string) {
+    super();
   }
 
-  public toArray(): RentalOffer[] {
-    if (!this.rowData) {
-      throw new Error('File was not read');
+  public async read(): Promise<void> {
+    const readStream = createReadStream(this.filePath, {
+      highWaterMark: CHUNK_SIZE,
+      encoding: 'utf-8',
+    });
+
+    let remainingData = '';
+    let nextLinePosition = -1;
+    let importedRowCount = 0;
+
+    for await (const chunk of readStream) {
+      remainingData += chunk.toString();
+
+      while ((nextLinePosition = remainingData.indexOf('\n')) >= 0) {
+        const completeRow = remainingData.slice(0, nextLinePosition + 1);
+        remainingData = remainingData.slice(++nextLinePosition);
+        importedRowCount++;
+
+        this.emit('line', completeRow);
+      }
     }
 
-    return this.rowData
-      .split('/n')
-      .filter((line) => line.trim().length > 0)
-      .map((line) => line.split('/t'))
-      .map(([title, decsription, date, city, preview, photos, premium, favorite, rating, type, roomsNumber, guestsNumber, cost, conveniences, authorName, commentsCount, coordinates]) => ({
-        title,
-        decsription,
-        date: new Date(date),
-        city,
-        preview,
-        photos: photos.split(';'),
-        premium: !!premium,
-        favorite: !!favorite,
-        rating: Number.parseFloat(rating),
-        type: HousingType[type as HousingTypes],
-        roomsNumber: +roomsNumber,
-        guestsNumber: +guestsNumber,
-        cost: +cost,
-        conveniences: conveniences.split(';')
-          .map((conv) => Convenience[conv as Conveniences]),
-        author: {
-          name: authorName,
-          email: 'test@email.ru',
-          password: '123456',
-          type: UserType.Common,
-        },
-        commentsCount: +commentsCount,
-        coordinates: formatCoordinates(coordinates),
-      }));
+    this.emit('end', importedRowCount);
   }
 }
