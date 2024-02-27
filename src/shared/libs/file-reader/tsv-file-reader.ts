@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { FileReader } from './file-reader.interface.js';
-import { Convenience, Conveniences, HousingType, HousingTypes, RentalOffer, UserType } from '../types/index.js';
-import { formatCoordinates } from './format-coordinates.js';
+import { Convenience, Conveniences, HousingType, HousingTypes, RentalOffer, UserType } from '../../types/index.js';
+import { formatCoordinates } from '../../helpers/format-coordinates.js';
 
 export class TSVFileReader implements FileReader {
   private rowData = '';

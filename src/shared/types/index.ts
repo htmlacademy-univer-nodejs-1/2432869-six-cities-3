@@ -9,3 +9,5 @@ export * from './rental-offer.type.js';
 export * from './user-type.enum.js';
 export * from './user.type.js';
 export * from './value-of.type.js';
+export * from './mock-server-data.type.js';
+export * from './limited-number.type.js';
