@@ -1,9 +1,11 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import got from 'got';
 import { Command } from './command.interface.js';
 import { MockServerData } from '../../shared/types/mock-server-data.type.js';
-import { TSVOfferGenerator } from '../../shared/libs/offer-generator/tsv-offer-genertor.js';
-import { TSVFileWriter } from '../../shared/libs/file-writer/tsv-file-writer.js';
-import { getErrorMessage } from '../../shared/helpers/get-errors-message.js';
+import { TSVOfferGenerator } from '../../shared/libs/offer-generator/index.js';
+import { TSVFileWriter } from '../../shared/libs/file-writer/index.js';
+import { getErrorMessage } from '../../shared/helpers/index.js';
 
 export class GenerateCommand implements Command {
   private initialData: MockServerData;
