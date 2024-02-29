@@ -14,7 +14,8 @@
     "lint": "eslint src/ --ext .ts",
     "compile": "tsc -p tsconfig.json",
     "clean": "rimraf dist",
-    "ts": "ts-node",
+    "ts-node": "ts-node",
+    "dev:cli": "tsx ./src/main.cli.ts",
     "mock:server": "json-server ./mocks/mock-server-data.json --port 3999"
   },
   "devDependencies": {
@@ -27,6 +28,7 @@
     "rimraf": "3.0.2",
     "ts-node": "10.9.1",
     "tslib": "2.6.2",
+    "tsx": "4.7.1",
     "typescript": "4.9.5"
   },
   "type": "module",

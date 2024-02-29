@@ -25,6 +25,10 @@ export class ImportCommand implements Command {
   }
 
   private onImportedLine(line: string) {
+    if (line.trim().length === 0) {
+      return;
+    }
+
     const offer = createOffer(line);
     console.info(offer);
   }

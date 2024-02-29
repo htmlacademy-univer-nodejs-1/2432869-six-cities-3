@@ -1,3 +1,4 @@
+// У меня редактор ругается на отсутствие модуля "got"
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import got from 'got';
@@ -23,7 +24,6 @@ export class GenerateCommand implements Command {
       console.info(`File ${filePath} was created`);
     } catch (err) {
       console.error('Can\'t generate data');
-
       console.error(getErrorMessage(err));
     }
   }
