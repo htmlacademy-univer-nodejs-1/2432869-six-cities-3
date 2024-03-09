@@ -38,6 +38,6 @@ export class TSVOfferGenerator implements OfferGenerator {
       title, description, date, city, preview, photos, premium, favorite,
       rating, type, roomsNumber, guestsNumber, cost, conveniences, author,
       commentsCount, coordinates,
-    ].join('/t');
+    ].join('\t');
   }
 }

@@ -1,6 +1,3 @@
-// У меня редактор ругается на отсутствие модуля "got"
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import got from 'got';
 import { Command } from './command.interface.js';
 import { MockServerData } from '../../shared/types/mock-server-data.type.js';
@@ -30,7 +27,7 @@ export class GenerateCommand implements Command {
 
   private async load(url: string) {
     try {
-      this.initialData = got.get(url).json();
+      this.initialData = await got.get(url).json();
     } catch (err) {
       throw new Error(`Can't load data from ${url}`);
     }
