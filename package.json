@@ -16,10 +16,12 @@
     "compile": "tsc -p tsconfig.json",
     "clean": "rimraf dist",
     "ts-node": "ts-node",
-    "dev:cli": "tsx ./src/main.cli.ts",
+    "dev:cli": "tsx ./src/main.rest.ts",
     "mock:server": "json-server ./mocks/mock-server-data.json --port 3999"
   },
   "devDependencies": {
+    "@types/convict": "6.1.6",
+    "@types/convict-format-with-validator": "6.0.5",
     "@types/node": "18.16.3",
     "@typescript-eslint/eslint-plugin": "5.46.0",
     "@typescript-eslint/parser": "5.46.0",
@@ -40,7 +42,10 @@
   },
   "dependencies": {
     "chalk": "^5.3.0",
+    "convict": "^6.2.4",
+    "convict-format-with-validator": "^6.2.0",
     "dayjs": "1.11.10",
+    "dotenv": "^16.4.5",
     "got": "^11.8.2",
     "pino": "^8.19.0"
   }
