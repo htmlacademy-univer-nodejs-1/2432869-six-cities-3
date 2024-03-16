@@ -8,20 +8,16 @@ export class HelpCommand implements Command {
 
   public async execute(..._parameters: string[]): Promise<void> {
     console.log(chalk.black(`
-        Программа для подготовки данных для REST API сервера.
-        Пример:
-    `));
+      Программа для подготовки данных для REST API сервера.
+      Пример:`));
     console.log(chalk.blue(`
-            cli.js --<command> [--arguments]
-    `));
+          cli.js --<command> [--arguments]`));
     console.log(chalk.black(`
-        Команды:
-    `));
+      Команды:`));
     console.log(chalk.blue(`
-            --version:                   # выводит номер версии
-            --help:                      # печатает этот текст
-            --import <path>:             # импортирует данные из TSV
-            --generate <n> <path> <url>  # генерирует произвольное количество тестовых данных
-    `));
+          --version:                   # выводит номер версии
+          --help:                      # печатает этот текст
+          --import <path>:             # импортирует данные из TSV
+          --generate <n> <path> <url>  # генерирует произвольное количество тестовых данных`));
   }
 }

@@ -11,3 +11,4 @@ export * from './user.type.js';
 export * from './value-of.type.js';
 export * from './mock-server-data.type.js';
 export * from './limited-number.type.js';
+export * from './component.enum.js';

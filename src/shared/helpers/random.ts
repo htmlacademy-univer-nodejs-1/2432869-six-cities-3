@@ -1,7 +1,7 @@
 import { LimitedNumber } from '../types/index.js';
 
-export function generateRandomValue({ min, max }: LimitedNumber) {
-  return +((Math.random() * (max - min)) + min);
+export function generateRandomValue({ min, max, numAfterDigit = 0 }: LimitedNumber) {
+  return +((Math.random() * (max - min)) + min).toFixed(numAfterDigit);
 }
 
 export function getRandomItems<T>(items: T[]): T[] {
