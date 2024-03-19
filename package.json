@@ -17,7 +17,8 @@
     "clean": "rimraf dist",
     "ts-node": "ts-node",
     "dev:cli": "tsx ./src/main.rest.ts",
-    "mock:server": "json-server ./mocks/mock-server-data.json --port 3999"
+    "mock:server": "json-server ./mocks/mock-server-data.json --port 3999",
+    "docker": "docker compose up -d"
   },
   "devDependencies": {
     "@types/convict": "6.1.6",
