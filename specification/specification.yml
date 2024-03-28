@@ -1,0 +1,240 @@
+openapi: 3.1.0
+
+info:
+  title: API сервер для учебного проекта «Шесть городов».
+  description: Список ресурсов и маршрутов сервера «Шесть городов».
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  servers:
+    - url: http://localhost:5000
+  version: 1.0.0
+
+tags:
+  - name: rental-offers
+    description: Действия с объявлениями.
+  - name: users
+    description: Действия с пользователем.
+  - name: comments
+    description: Действия с комментариями.
+
+paths:
+  /users/register:
+    post:
+      tags:
+        - users
+      summary: Регистрация пользователя
+      description: Регистрирует нового пользователя.
+
+      requestBody:
+        description: Информация для создания нового пользователя.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/createUser"
+
+      responses:
+        "201":
+          description: Пользователь зарегистрирован.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/user"
+        "400":
+          description: Некорректный запрос.
+        "409":
+          description: Пользователь с таким email уже существует.
+
+  /login:
+    get:
+      tags:
+        - users
+      summary: Проверка состояния пользователя
+      description: Возвращает информацию по авторизованному пользователю
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/user"
+        "400":
+          description: Некорректный запрос.
+        "401":
+          description: Неавторизованный запрос.
+
+    post:
+      tags:
+        - users
+      summary: Авторизация пользователя
+      description: Авторизует пользователя на основе логина и пароля
+      requestBody:
+        required: true
+        description: Данные для авторизации
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/loginUser"
+      responses:
+        "200":
+          description: Успешная авторизация
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/user"
+                  - properties:
+                      token:
+                        type: string
+        "400":
+          description: Некорректный запрос.
+
+  /logout:
+    delete:
+      tags:
+        - users
+      summary: Завершение сеанса
+      description: Завершает сеанс для пользователя
+      responses:
+        "200":
+          description: Сеанс завершён
+        "400":
+          description: Некорректный запрос.
+
+  /{userId}/avatar:
+    post:
+      tags:
+        - users
+      summary: Загрузить изображение аватара
+      description: Загружает изображение аватара пользователя. Изображение
+        аватара должно быть в формате `png` или `jpg`.
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Аватар для пользователя
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/avatar"
+      responses:
+        "200":
+          description: Аватар загружен
+        "400":
+          description: Некорректный запрос.
+        "401":
+          description: Отказ в доступе.
+
+components:
+  schemas:
+    createUser:
+      type: object
+      required:
+        - name
+        - email
+        - password
+        - type
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 15
+          example: Ivan
+        email:
+          type: string
+          pattern: ^\S+@\S+\.\S+$
+          example: user@mail.ru
+        password:
+          type: string
+          minLength: 6
+          maxLength: 12
+          example: 123456
+        type:
+          type: string
+          example: regular
+
+    user:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 6329c3d6a04ab1061c6425ea
+        name:
+          type: string
+          example: Ivan
+        email:
+          type: string
+          example: user@mail.ru
+        type:
+          type: string
+          example: regular
+
+    avatar:
+      type: object
+      required:
+        - avatar
+      properties:
+        avatar:
+          type: array
+          items: {}
+
+    loginUser:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          pattern: ^\S+@\S+\.\S+$
+          example: user@mail.ru
+        password:
+          type: string
+          minLength: 6
+          maxLength: 12
+          example: 123456
+# 2.1. Создание нового предложения
+# 2.2. Редактирование предложения
+# 2.3. Удаление предложения
+# 2.4. Получение списка предложений по аренде
+# 2.5. Получение детальной информации о предложении
+
+# 2.6. Получение списка комментариев для предложения
+# 2.7. Добавление комментария для предложения
+
+# 2.8. *Создание нового пользователя
+# 2.9. *Вход в закрытую часть приложения
+# 2.10. *Выход из закрытой части приложения
+# 2.11. *Проверка состояния пользователя
+# 0.00. *Загрузка аватара
+
+# 2.12. Получение списка премиальных предложений для города
+# 2.13. Получения списка предложений, добавленных в избранное
+# 2.14. Добавление/удаление предложения в/из избранное
+
+# components:
+#   schemas:
+#     User:
+#       description: User schema
+#       properties:
+#         name:
+#           type: string
+#         avatarUrl:
+#           type: string
+#           pattern: ^http:\/\/localhost:5000\/images\/\S\.jpg$
+#         type:
+#           type: string
+#         email:
+#           type: string
+#           pattern: ^\S@i.edu$
+
+#   securitySchemes:
+#     bearerAuth:
+#       type: http
+#       scheme: bearer
+#       bearerFormat: jwt
+#       description: User Token
