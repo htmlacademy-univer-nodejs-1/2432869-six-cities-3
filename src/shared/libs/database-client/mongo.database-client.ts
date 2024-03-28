@@ -33,7 +33,7 @@ export class MongoDatabaseClient implements DatabaseClient {
     let attempt = 0;
     while (attempt < RETRY_COUNT) {
       try {
-        this.mongoose = await Mongoose.connect(uri);
+        this.mongoose = await Mongoose.connect(uri, { family: 4 });
         this.isConnected = true;
         this.logger.info('Database connection established.');
         return;

@@ -1,11 +1,10 @@
 import { Convenience } from './convenience.enum.js';
-import { Coordinates } from './coordinates.type.js';
 import { HousingType } from './housing-type.enum.js';
 import { User } from './user.type.js';
 
 export type RentalOffer = {
   title: string; // length from 10 to 100
-  decsription: string; // length from 20 to 1024
+  description: string; // length from 20 to 1024
   date: Date;
   city: string;
   preview: string;
@@ -20,5 +19,5 @@ export type RentalOffer = {
   conveniences: Convenience[];
   author: User;
   commentsCount: number;
-  coordinates: Coordinates;
+  coordinates: string;
 };
