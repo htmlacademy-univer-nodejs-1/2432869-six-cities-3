@@ -1,5 +1,4 @@
 import { Convenience, Conveniences, HousingType, HousingTypes, RentalOffer, UserType } from '../types/index.js';
-import { formatCoordinates } from './format-coordinates.js';
 
 export function createOffer(offerData: string): RentalOffer {
   const [
@@ -31,7 +30,7 @@ export function createOffer(offerData: string): RentalOffer {
 
   return {
     title,
-    decsription,
+    description: decsription,
     date: new Date(date),
     city,
     preview,
@@ -47,6 +46,6 @@ export function createOffer(offerData: string): RentalOffer {
       .map((conv) => Convenience[conv as Conveniences]),
     author,
     commentsCount: +commentsCount,
-    coordinates: formatCoordinates(coordinates),
+    coordinates: coordinates,
   };
 }
