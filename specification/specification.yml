@@ -32,7 +32,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/createUser"
+              $ref: "#/components/schemas/newUser"
 
       responses:
         "201":
@@ -165,7 +165,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/offer"
+                $ref: "#/components/schemas/fullOffer"
         "400":
           description: Некорректный запрос.
 
@@ -187,7 +187,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/offer"
+                $ref: "#/components/schemas/fullOffer"
         "400":
           description: Некорректный запрос.
 
@@ -208,14 +208,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/offer"
+              $ref: "#/components/schemas/newOffer"
       responses:
         "200":
           description: Успешное обновление.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/offer"
+                $ref: "#/components/schemas/fullOffer"
         "400":
           description: Некорректный запрос.
 
@@ -296,7 +296,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/offer"
+                $ref: "#/components/schemas/fullOffer"
         "400":
           description: Некорректный запрос.
 
@@ -317,7 +317,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/offer"
+                $ref: "#/components/schemas/fullOffer"
         "400":
           description: Некорректный запрос.
 
@@ -424,19 +424,21 @@ components:
       example: Popular
 
   schemas:
-    createUser:
+    newUser:
       type: object
       required:
         - name
+        - type
         - email
         - password
-        - type
       properties:
         name:
           type: string
           minLength: 1
           maxLength: 15
           example: Ivan
+        type:
+          $ref: "#/components/parameters/userType"
         email:
           type: string
           pattern: ^\S+@\S+\.\S+$
@@ -448,63 +450,8 @@ components:
           minLength: 6
           maxLength: 12
           example: 123456
-        type:
-          $ref: "#/components/parameters/userType"
-
-    createUser1:
-      type: object
-      required:
-        - name
-        - type
-        - email
-        - password
-        # - avatar
-      properties:
-        name:
-          type: string
-          minLength: 1
-          maxLength: 15
-          example: Ivan
-        type:
-          type: string
-          example: regular
-        email:
-          type: string
-          pattern: ^\S+@\S+\.\S+$
-          example: user@mail.ru
-        password:
-          type: string
-          minLength: 6
-          maxLength: 12
-          example: 123456
-        # avatar: ###
-        #   type: File
 
     user:
-      type: object
-      required:
-        - name
-        - email
-        - password
-        - type
-      properties:
-        id:
-          type: string
-          example: 6329c3d6a04ab1061c6425ea
-        name:
-          type: string
-          minLength: 1
-          maxLength: 15
-          example: Ivan
-        email:
-          type: string
-          pattern: ^\S+@\S+\.\S+$
-          example: user@mail.ru
-        type:
-          type: string
-          example: regular
-
-    user1:
       type: object
       required:
         - name
@@ -517,7 +464,7 @@ components:
           minLength: 1
           maxLength: 15
           example: Ivan
-        avatarUrl: ###
+        avatarUrl:
           type: string
         type:
           type: string
@@ -535,8 +482,6 @@ components:
         avatar:
           type: array
           items: {}
-          # type: string
-          # pattern: ^http:\/\/localhost:5000\/images\/\S\.jpg$
 
     loginUser:
       type: object
@@ -557,6 +502,59 @@ components:
           example: 123456
 
     offer:
+      type: object
+      required:
+        - id
+        - price
+        - rating
+        - title
+        - isPremium
+        - isFavorite
+        - city
+        - previewImage
+        - type
+        - commentsCount
+        - date
+      properties:
+        id:
+          type: string
+          example: 89dsaj230ods
+        price:
+          type: int64
+          minimum: 100
+          maximum: 100000
+          example: 9999
+        rating:
+          type: number
+          minimum: 1
+          maximum: 5
+          example: 5
+        title:
+          type: string
+          minLength: 10
+          maxLength: 100
+          example: Cool apartment
+        isPremium:
+          type: boolean
+          example: false
+        isFavorite:
+          type: boolean
+          example: false
+        city:
+          $ref: "#/components/schemas/city"
+        previewImage:
+          type: string
+        type:
+          $ref: "#/components/parameters/housingType"
+        commentsCount:
+          type: number
+          minimum: 0
+          example: 2
+        date:
+          type: string # добавить пример
+          format: date-time
+
+    fullOffer:
       type: object
       required:
         - id
@@ -767,57 +765,6 @@ components:
           minimum: 1
           maximum: 5
           example: 5
-
-    commentAuth:
-      type: object
-      required:
-        - comment
-        - rating
-        - id
-      properties:
-        comment:
-          type: string
-          minLength: 5
-          maxLength: 1024
-          example: Best for the best
-        rating:
-          type: number
-          minimum: 1
-          maximum: 5
-          example: 5
-        id: # offerId
-          type: string
-          example: 89dsaj230ods
-
-    favoriteAuth:
-      type: object
-      required:
-        - id
-      properties:
-        id: # offerId
-          type: string
-          example: 89dsaj230ods
-# .
-# .
-# 2.1. *Создание нового предложения
-# 2.2. *Редактирование предложения
-# 2.3. *Удаление предложения
-# 2.4. *Получение списка предложений по аренде
-# 2.5. *Получение детальной информации о предложении
-
-# 2.6. *Получение списка комментариев для предложения
-# 2.7. *Добавление комментария для предложения
-
-# 2.8. *Создание нового пользователя
-# 2.9. *Вход в закрытую часть приложения
-# 2.10. *Выход из закрытой части приложения
-# 2.11. *Проверка состояния пользователя
-# 0.00. *Загрузка аватара
-
-# 2.12. *Получение списка премиальных предложений для города
-# 2.13. *Получения списка предложений, добавленных в избранное
-# 2.14. *Добавление/удаление предложения в/из избранное
-
 # components:
 #   securitySchemes:
 #     bearerAuth:
