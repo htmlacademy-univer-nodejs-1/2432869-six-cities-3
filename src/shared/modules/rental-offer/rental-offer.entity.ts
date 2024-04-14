@@ -17,23 +17,23 @@ export class RentalOfferEntity extends defaultClasses.TimeStamps {
   @prop({ required: true, trim: true, minlength: 20, maxlength: 1024, default: '', type: () => String })
   public description: string;
 
-  @prop({ required: true, type: () => Date })
-  public date: Date;
+  // @prop({ required: true, type: () => Date })
+  // public date: Date;
 
   @prop({ required: true, type: () => String })
   public city: string;
 
   @prop({ required: true, type: () => String })
-  public preview: string;
+  public previewImage: string;
 
   @prop({ required: true, type: () => Array<string> }) // сделать равным по длине 6
-  public photos: string[];
+  public images: string[];
 
   @prop({ required: true, default: false, type: () => Boolean })
-  public premium: boolean;
+  public isPremium: boolean;
 
   @prop({ required: true, default: false, type: () => Boolean })
-  public favorite: boolean;
+  public isFavorite: boolean;
 
   @prop({ required: true, min: 1, max: 5, type: () => Number })
   public rating: number;
@@ -42,25 +42,25 @@ export class RentalOfferEntity extends defaultClasses.TimeStamps {
   public type: HousingType;
 
   @prop({ required: true, min: 1, max: 8, type: () => Number })
-  public roomsNumber: number;
+  public bedrooms: number;
 
   @prop({ required: true, min: 1, max: 10, type: () => Number })
-  public guestsNumber: number;
+  public maxAdults: number;
 
   @prop({ required: true, min: 100, max: 100000, type: () => Number })
-  public cost: number;
+  public price: number;
 
   @prop({ required: true, type: () => Array<string> })
-  public conveniences: Convenience[];
+  public goods: Convenience[];
 
   @prop({ required: true, ref: UserEntity })
-  public authorId: Ref<UserEntity>;
+  public host: Ref<UserEntity>;
 
-  @prop({ required: true, default: 0, type: () => Number })
+  @prop({ required: true, min: 0, default: 0, type: () => Number })
   public commentsCount: number;
 
   @prop({ required: true, type: () => String })
-  public coordinates: string;
+  public location: string;
 }
 
 export const RentalOfferModel = getModelForClass(RentalOfferEntity);

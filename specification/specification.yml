@@ -1,0 +1,788 @@
+openapi: "3.0.3"
+
+info:
+  title: API сервер для учебного проекта «Шесть городов».
+  description: Список ресурсов и маршрутов сервера «Шесть городов».
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  version: "1.0.0"
+
+servers:
+  - url: http://localhost:5000
+
+tags:
+  - name: rentalOffers
+    description: Действия с объявлениями.
+  - name: users
+    description: Действия с пользователем.
+  - name: comments
+    description: Действия с комментариями.
+
+paths:
+  /register:
+    post:
+      tags:
+        - users
+      summary: Регистрация пользователя.
+      description: Регистрирует нового пользователя.
+
+      requestBody:
+        description: Информация для создания нового пользователя.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/newUser"
+
+      responses:
+        "201":
+          description: Пользователь зарегистрирован.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/user"
+        "400":
+          description: Некорректный запрос.
+        "409":
+          description: Пользователь с таким email уже существует.
+
+  /login:
+    get:
+      tags:
+        - users
+      summary: Проверка состояния пользователя.
+      description: Возвращает информацию по авторизованному пользователю.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/user"
+        "400":
+          description: Некорректный запрос.
+        "401":
+          description: Неавторизованный запрос.
+
+    post:
+      tags:
+        - users
+      summary: Авторизация пользователя.
+      description: Авторизует пользователя на основе логина и пароля.
+      requestBody:
+        required: true
+        description: Данные для авторизации.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/loginUser"
+      responses:
+        "200":
+          description: Успешная авторизация.
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/user"
+                  - properties:
+                      token:
+                        type: string
+        "400":
+          description: Некорректный запрос.
+
+  /logout:
+    delete:
+      tags:
+        - users
+      summary: Завершение сеанса.
+      description: Завершает сеанс для пользователя.
+      responses:
+        "200":
+          description: Сеанс завершён.
+        "400":
+          description: Некорректный запрос.
+        "401":
+          description: Неавторизованный запрос.
+
+  /{userId}/avatar:
+    post:
+      tags:
+        - users
+      summary: Загрузить изображение аватара.
+      description: Загружает изображение аватара пользователя. Изображение
+        аватара должно быть в формате `png` или `jpg`.
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Аватар для пользователя.
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/avatar"
+      responses:
+        "200":
+          description: Аватар загружен.
+        "400":
+          description: Некорректный запрос.
+        "401":
+          description: Отказ в доступе.
+
+  /offers:
+    get:
+      tags:
+        - rentalOffers
+      summary: Получение списка предложений по аренде.
+      description: Выдаёт список текующих предложений по аренде жилья.
+      responses:
+        "200":
+          description: Предложения получены.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/fullOffer"
+        "400":
+          description: Некорректный запрос.
+
+    post:
+      tags:
+        - rentalOffers
+      summary: Создание преложения по аренде.
+      description: Создаёт новое предложение по аренде жилья.
+      requestBody:
+        required: true
+        description: Данные о предложении.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/newOffer"
+      responses:
+        "201":
+          description: Успешное создание.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/fullOffer"
+        "400":
+          description: Некорректный запрос.
+
+  /offers/{offerId}:
+    get:
+      tags:
+        - rentalOffers
+      summary: Получение преложения по аренде.
+      description: Выдаёт детальное предложение по аренде жилья.
+      parameters:
+        - name: offerId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Предложение получено.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/fullOffer"
+        "400":
+          description: Некорректный запрос.
+
+    patch:
+      tags:
+        - rentalOffers
+      summary: Редактирования преложения по аренде.
+      description: Редактирует уже существующее предложение по аренде жилья.
+      parameters:
+        - name: offerId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        description: Данные о предложении.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/fullOffer"
+      responses:
+        "200":
+          description: Успешное обновление.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/fullOffer"
+        "400":
+          description: Некорректный запрос.
+        "401":
+          description: Неавторизованный запрос.
+
+    delete:
+      tags:
+        - rentalOffers
+      summary: Удаление преложения по аренде.
+      description: Удаляет уже существующее предложение по аренде жилья.
+      parameters:
+        - name: offerId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Успешное удаление.
+        "400":
+          description: Некорректный запрос.
+        "401":
+          description: Неавторизованный запрос.
+
+  /premium?city={cityName}:
+    get:
+      tags:
+        - rentalOffers
+      summary: Получение премиальных предложений для города.
+      description: Выдаёт список премиальных предложений по аренде для города.
+      parameters:
+        - name: cityName
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Успешное получение предложений.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/fullOffer"
+        "400":
+          description: Некорректный запрос.
+
+  /favorites:
+    get:
+      tags:
+        - rentalOffers
+      summary: Получение избранных преложений по аренде.
+      description: Выдаёт список избранных пользователем предложений по аренде жилья.
+      responses:
+        "200":
+          description: Избранные предложения получены.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/fullOffer"
+        "400":
+          description: Некорректный запрос.
+        "401":
+          description: Неавторизованный запрос.
+
+  /favorites/{offerId}:
+    post:
+      tags:
+        - rentalOffers
+      summary: Добавление предложения в избранное.
+      description: Добавляет указанное предложение в избранное пользователем.
+      parameters:
+        - name: offerId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Успешное сохранение предложения.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/fullOffer"
+        "400":
+          description: Некорректный запрос.
+        "401":
+          description: Неавторизованный запрос.
+
+    delete:
+      tags:
+        - rentalOffers
+      summary: Убирает предложение из избранного.
+      description: Убирает указанное предложение из избранного пользователем.
+      parameters:
+        - name: offerId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Успешное удаление предложения из избранного.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/fullOffer"
+        "400":
+          description: Некорректный запрос.
+        "401":
+          description: Неавторизованный запрос.
+
+  /offers/{offerId}/comments:
+    get:
+      tags:
+        - comments
+      summary: Получение комментариев для предложения.
+      description: Выдаёт комментарии для указанного предложения.
+      parameters:
+        - name: offerId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Успешное получение комментариев.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/comment"
+        "400":
+          description: Некорректный запрос.
+
+    post:
+      tags:
+        - comments
+      summary: Добавление нового комментаря для предложения.
+      description: Добавляет новый комментарий для указанного предложения.
+      parameters:
+        - name: offerId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        description: Данные о комментарии.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/newComment"
+      responses:
+        "200":
+          description: Успешное добавление комментария.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/comment"
+        "400":
+          description: Некорректный запрос.
+        "401":
+          description: Неавторизованный запрос.
+
+components:
+  schemas:
+    userType:
+      type: string
+      enum:
+        - regular
+        - pro
+      example: regular
+
+    cityName:
+      type: string
+      enum:
+        - Paris
+        - Cologne
+        - Brussels
+        - Amsterdam
+        - Hamburg
+        - Dusseldorf
+      example: Paris
+
+    housingType:
+      type: string
+      enum:
+        - apartment
+        - room
+        - house
+        - hotel
+      example: room
+
+    goods:
+      type: string
+      enum:
+        - Breakfast
+        - Air conditioning
+        - Laptop friendly workspace
+        - Baby seat
+        - Washer
+        - Towels
+        - Fridge
+      example: Breakfast
+
+    sortName:
+      type: string
+      enum:
+        - Popular
+        - PriceIncrease
+        - PriceDecrease
+        - TopRated
+      example: Popular
+
+    newUser:
+      type: object
+      required:
+        - name
+        - type
+        - email
+        - password
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 15
+          example: Ivan
+        type:
+          $ref: "#/components/schemas/userType"
+        email:
+          type: string
+          pattern: ^\S+@\S+\.\S+$
+          format: email
+          example: user@mail.ru
+        password:
+          type: string
+          format: password
+          minLength: 6
+          maxLength: 12
+          example: 123456
+
+    user:
+      type: object
+      required:
+        - name
+        - avatarUrl
+        - type
+        - email
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 15
+          example: Ivan
+        avatarUrl:
+          type: string
+        type:
+          type: string
+          example: regular
+        email:
+          type: string
+          pattern: ^\S+@\S+\.\S+$
+          example: user@mail.ru
+
+    avatar:
+      type: object
+      required:
+        - avatar
+      properties:
+        avatar:
+          type: array
+          items: {}
+
+    loginUser:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          pattern: ^\S+@\S+\.\S+$
+          format: email
+          example: user@mail.ru
+        password:
+          type: string
+          format: password
+          minLength: 6
+          maxLength: 12
+          example: 123456
+
+    offer:
+      type: object
+      required:
+        - id
+        - price
+        - rating
+        - title
+        - isPremium
+        - isFavorite
+        - city
+        - previewImage
+        - type
+        - commentsCount
+        - date
+      properties:
+        id:
+          type: string
+          example: 89dsaj230ods
+        price:
+          type: integer
+          minimum: 100
+          maximum: 100000
+          example: 9999
+        rating:
+          type: number
+          minimum: 1
+          maximum: 5
+          example: 5
+        title:
+          type: string
+          minLength: 10
+          maxLength: 100
+          example: Cool apartment
+        isPremium:
+          type: boolean
+          example: false
+        isFavorite:
+          type: boolean
+          example: false
+        city:
+          $ref: "#/components/schemas/cityName"
+        previewImage:
+          type: string
+        type:
+          $ref: "#/components/schemas/housingType"
+        commentsCount:
+          type: number
+          minimum: 0
+          example: 2
+        date:
+          type: string # добавить пример
+          format: date-time
+
+    fullOffer:
+      type: object
+      required:
+        - id
+        - price
+        - rating
+        - title
+        - isPremium
+        - isFavorite
+        - city
+        - location
+        - previewImage
+        - type
+        - bedrooms
+        - description
+        - goods
+        - host
+        - images
+        - maxAdults
+      properties:
+        id:
+          type: string
+          example: 89dsaj230ods
+        price:
+          type: integer
+          minimum: 100
+          maximum: 100000
+          example: 9999
+        rating:
+          type: number
+          minimum: 1
+          maximum: 5
+          example: 5
+        title:
+          type: string
+          minLength: 10
+          maxLength: 100
+          example: Cool apartment
+        isPremium:
+          type: boolean
+          example: false
+        isFavorite:
+          type: boolean
+          example: false
+        city:
+          $ref: "#/components/schemas/cityName"
+        location:
+          $ref: "#/components/schemas/location"
+        previewImage:
+          type: string
+        type:
+          $ref: "#/components/schemas/housingType"
+        bedrooms:
+          type: number
+          minimum: 1
+          maximum: 8
+          example: 2
+        description:
+          type: string
+          minLength: 20
+          maxLength: 1024
+          example: The best apartment of the year
+        goods:
+          type: array
+          items:
+            $ref: "#/components/schemas/goods"
+        host:
+          $ref: "#/components/schemas/user"
+        images:
+          type: array
+          items:
+            type: string
+        maxAdults:
+          type: number
+          minimum: 1
+          maximum: 10
+          example: 4
+
+    newOffer:
+      type: object
+      required:
+        - title
+        - description
+        - city
+        - previewImage
+        - isPremium
+        - type
+        - bedrooms
+        - maxAdults
+        - price
+        - goods
+        - location
+        - images
+      properties:
+        title:
+          type: string
+          minLength: 10
+          maxLength: 100
+          example: Cool apartment
+        description:
+          type: string
+          minLength: 20
+          maxLength: 1024
+          example: The best apartment of the year
+        city:
+          $ref: "#/components/schemas/cityName"
+        previewImage:
+          type: string
+        isPremium:
+          type: boolean
+          example: false
+        type:
+          $ref: "#/components/schemas/housingType"
+        bedrooms:
+          type: number
+          minimum: 1
+          maximum: 8
+          example: 2
+        maxAdults:
+          type: number
+          minimum: 1
+          maximum: 10
+          example: 4
+        price:
+          type: integer
+          minimum: 100
+          maximum: 100000
+          example: 9999
+        goods:
+          type: array
+          items:
+            $ref: "#/components/schemas/goods"
+        location:
+          $ref: "#/components/schemas/location"
+        images:
+          type: array
+          items:
+            type: string
+
+    location:
+      type: object
+      required:
+        - latitude
+        - longitude
+      properties:
+        latitude:
+          type: number
+          minimum: 0
+          maximum: 90
+          example: 65.4321
+        longitude:
+          type: number
+          minimum: 0
+          maximum: 180
+          example: 12.3456
+
+    city:
+      type: object
+      required:
+        - name
+        - location
+      properties:
+        name:
+          $ref: "#/components/schemas/cityName"
+        location:
+          $ref: "#/components/schemas/location"
+
+    comment:
+      type: object
+      required:
+        - id
+        - comment
+        - date
+        - rating
+        - user
+      properties:
+        id:
+          type: string
+          example: 4100fsrwe90jofsd90
+        comment:
+          type: string
+          minLength: 5
+          maxLength: 1024
+          example: Best for the best
+        date:
+          type: string # добавить пример
+          format: date-time
+        rating:
+          type: number
+          minimum: 1
+          maximum: 5
+          example: 5
+        user:
+          $ref: "#/components/schemas/user"
+
+    newComment:
+      type: object
+      required:
+        - comment
+        - rating
+      properties:
+        comment:
+          type: string
+          minLength: 5
+          maxLength: 1024
+          example: Best for the best
+        rating:
+          type: number
+          minimum: 1
+          maximum: 5
+          example: 5
+# components:
+#   securitySchemes:
+#     bearerAuth:
+#       type: http
+#       scheme: bearer
+#       bearerFormat: jwt
+#       description: User Token
