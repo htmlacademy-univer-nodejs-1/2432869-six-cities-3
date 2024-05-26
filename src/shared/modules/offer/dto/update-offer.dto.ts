@@ -1,6 +1,6 @@
 import { Convenience, HousingType } from '../../../types/index.js';
 
-export class UpdateRentalOfferDto {
+export class UpdateOfferDto {
   public title?: string;
   public description?: string;
   public city?: string;
@@ -13,4 +13,9 @@ export class UpdateRentalOfferDto {
   public price?: number;
   public goods?: Convenience[];
   public location?: string;
+
+  // public date?: string;
+  // public isFavorite?: boolean;
+  // public rating?: number;
+  // public commentsCount?: number;
 }

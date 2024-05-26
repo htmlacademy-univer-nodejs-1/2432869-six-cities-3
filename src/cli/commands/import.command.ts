@@ -3,7 +3,7 @@ import { getErrorMessage } from '../../shared/helpers/index.js';
 import { DatabaseClient, MongoDatabaseClient } from '../../shared/libs/database-client/index.js';
 import { TSVFileReader } from '../../shared/libs/file-reader/index.js';
 import { ConsoleLogger, Logger } from '../../shared/libs/logger/index.js';
-import { DefaultRentalOfferService, RentalOfferModel, RentalOfferService } from '../../shared/modules/rental-offer/index.js';
+import { DefaultOfferService, OfferModel, OfferService } from '../../shared/modules/offer/index.js';
 import { DefaultUserService, UserModel, UserService } from '../../shared/modules/user/index.js';
 import { RentalOffer } from '../../shared/types/rental-offer.type.js';
 import { DEFAULT_DB_PORT, DEFAULT_USER_PASSWORD } from './command.constant.js';
@@ -11,7 +11,7 @@ import { Command } from './command.interface.js';
 
 export class ImportCommand implements Command {
   private userService: UserService;
-  private offerService: RentalOfferService;
+  private offerService: OfferService;
   private databaseClient: DatabaseClient;
   private logger: Logger;
   private salt: string;
@@ -22,7 +22,7 @@ export class ImportCommand implements Command {
 
     this.logger = new ConsoleLogger();
     this.userService = new DefaultUserService(this.logger, UserModel);
-    this.offerService = new DefaultRentalOfferService(this.logger, RentalOfferModel);
+    this.offerService = new DefaultOfferService(this.logger, OfferModel);
     this.databaseClient = new MongoDatabaseClient(this.logger);
   }
 

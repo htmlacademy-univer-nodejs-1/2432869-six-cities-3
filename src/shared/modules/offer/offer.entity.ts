@@ -3,14 +3,14 @@ import { Convenience } from '../../types/convenience.enum.js';
 import { HousingType } from '../../types/housing-type.enum.js';
 import { UserEntity } from '../user/index.js';
 
-export interface RentalOfferEntity extends defaultClasses.Base { }
+export interface OfferEntity extends defaultClasses.Base { }
 
 @modelOptions({
   schemaOptions: {
-    collection: 'rental-offers'
+    collection: 'offers'
   }
 })
-export class RentalOfferEntity extends defaultClasses.TimeStamps {
+export class OfferEntity extends defaultClasses.TimeStamps {
   @prop({ required: true, trim: true, minlength: 10, maxlength: 100, default: '', type: () => String })
   public title: string;
 
@@ -63,4 +63,4 @@ export class RentalOfferEntity extends defaultClasses.TimeStamps {
   public location: string;
 }
 
-export const RentalOfferModel = getModelForClass(RentalOfferEntity);
+export const OfferModel = getModelForClass(OfferEntity);
