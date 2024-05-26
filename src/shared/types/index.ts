@@ -13,3 +13,5 @@ export * from './mock-server-data.type.js';
 export * from './limited-number.type.js';
 export * from './component.enum.js';
 export * from './sort-type.enum.js';
+export * from './http-method.enum.js';
+export * from './route.interface.js';

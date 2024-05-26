@@ -1,0 +1,102 @@
+# Предложения
+## Получить список предложений
+GET http://localhost:5000/offers HTTP/1.1
+Content-Type: application/json
+
+###
+
+## Создать предложение
+# POST http://localhost:5000/offers HTTP/1.1
+# Content-Type: application/json
+
+# {
+#   "title": "Some title",
+#   "description": "Some description",
+#   "city": "Paris",
+#   "previewImage": "img",
+#   "images": ["photo1"],
+#   "isPremium": true,
+#   "isFavorite": true,
+#   "rating": 1,
+#   "type": "apartment",
+#   "bedrooms": 3,
+#   "maxAdults": 3,
+#   "price": 9900,
+#   "goods": ["Good view"],
+#   "host": "1",
+#   "latitude": 1,
+#   "longitude": 1
+#   "postDate": "10.03.2000",
+# }
+
+# ###
+
+## Получить предложение
+# GET http://localhost:5000/:offerId HTTP/1.1
+# Content-Type: application/json
+
+# {
+#   "title": "Some title",
+# }
+
+# ###
+
+## Изменить предложение
+# PATCH http://localhost:5000/:offerId HTTP/1.1
+# Content-Type: application/json
+
+# {
+#   "title": "Some title",
+# }
+
+# ###
+
+## Удалить предложение
+# DELETE http://localhost:5000/:offerId HTTP/1.1
+# Content-Type: application/json
+
+# {
+#   "title": "Some title",
+# }
+
+# ###
+
+## Получить премиумные предложение
+# GET http://localhost:5000/premium HTTP/1.1
+# Content-Type: application/json
+
+# {
+#   "title": "Some title",
+# }
+
+# ###
+
+## Получить сохранённые предложение
+# GET http://localhost:5000/favorites HTTP/1.1
+# Content-Type: application/json
+
+# {
+#   "title": "Some title",
+# }
+
+# ###
+
+## Сохранить предложение
+# POST http://localhost:5000/favorites/:offerId HTTP/1.1
+# Content-Type: application/json
+
+# {
+#   "title": "Some title",
+# }
+
+# ###
+
+## Удалить из сохранённых предложение
+# DELETE http://localhost:5000/favorites/:offerId HTTP/1.1
+# Content-Type: application/json
+
+# {
+#   "title": "Some title",
+# }
+
+# ###

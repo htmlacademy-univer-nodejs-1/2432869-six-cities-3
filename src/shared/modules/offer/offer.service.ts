@@ -1,28 +1,28 @@
-import { RentalOfferService } from './rental-offer-service.interface.js';
+import { OfferService } from './offer-service.interface.js';
 import { DocumentType, types } from '@typegoose/typegoose';
-import { RentalOfferEntity } from './rental-offer.entity.js';
-import { CreateRentalOfferDto } from './dto/create-rental-offer.dto.js';
+import { OfferEntity } from './offer.entity.js';
+import { CreateOfferDto } from './dto/create-offer.dto.js';
 import { inject, injectable } from 'inversify';
 import { Component, SortType } from '../../types/index.js';
 import { Logger } from '../../libs/logger/index.js';
-import { RentalOfferDto } from './dto/rental-offer.dto.js';
-import { DEFAULT_OFFER_COUNT, DEFAULT_PREMIUM_OFFER_COUNT } from './rental-offer.constant.js';
+import { OfferRdo } from './rdo/offer.rdo.js';
+import { DEFAULT_OFFER_COUNT, DEFAULT_PREMIUM_OFFER_COUNT } from './offer.constant.js';
 
 @injectable()
-export class DefaultRentalOfferService implements RentalOfferService {
+export class DefaultOfferService implements OfferService {
   constructor(
     @inject(Component.Logger) private readonly logger: Logger,
-    @inject(Component.RentalOfferModel) private readonly rentalOfferModel: types.ModelType<RentalOfferEntity>,
+    @inject(Component.OfferModel) private readonly rentalOfferModel: types.ModelType<OfferEntity>,
   ) { }
 
-  public async create(dto: CreateRentalOfferDto): Promise<DocumentType<RentalOfferEntity>> {
+  public async create(dto: CreateOfferDto): Promise<DocumentType<OfferEntity>> {
     const result = await this.rentalOfferModel.create(dto);
     this.logger.info(`New rentalOffer created: ${dto.title}`);
 
     return result.populate(['host']);
   }
 
-  public async find(count?: number): Promise<DocumentType<RentalOfferEntity>[] | null> {
+  public async find(count?: number): Promise<DocumentType<OfferEntity>[] | null> {
     return this.rentalOfferModel
       .find()
       .sort({ createdAt: SortType.Down })
@@ -31,14 +31,14 @@ export class DefaultRentalOfferService implements RentalOfferService {
       .exec();
   }
 
-  public async findByID(id: string): Promise<DocumentType<RentalOfferEntity> | null> {
+  public async findById(id: string): Promise<DocumentType<OfferEntity> | null> {
     return this.rentalOfferModel
       .findById(id)
       .populate(['host'])
       .exec();
   }
 
-  public async findByPremiumAndCity(city: string): Promise<DocumentType<RentalOfferEntity>[] | null> {
+  public async findByPremiumAndCity(city: string): Promise<DocumentType<OfferEntity>[] | null> {
     return this.rentalOfferModel
       .find({ isPremium: true, city })
       .sort({ createdAt: SortType.Down })
@@ -47,41 +47,41 @@ export class DefaultRentalOfferService implements RentalOfferService {
       .exec();
   }
 
-  public async findByFavorite(): Promise<DocumentType<RentalOfferEntity>[] | null> {
+  public async findByFavorite(): Promise<DocumentType<OfferEntity>[] | null> {
     return this.rentalOfferModel
       .find({ isFavorite: true })
       .populate(['host'])
       .exec();
   }
 
-  public async updateById(id: string, dto: RentalOfferDto): Promise<DocumentType<RentalOfferEntity> | null> {
+  public async updateById(id: string, dto: OfferRdo): Promise<DocumentType<OfferEntity> | null> {
     return this.rentalOfferModel
       .findByIdAndUpdate(id, dto, { new: true })
       .populate(['host'])
       .exec();
   }
 
-  public async deleteById(id: string): Promise<DocumentType<RentalOfferEntity> | null> {
+  public async deleteById(id: string): Promise<DocumentType<OfferEntity> | null> {
     return this.rentalOfferModel
       .findByIdAndDelete(id) /// добавить удаление комментариев
       .exec();
   }
 
-  public async addFavoriteById(id: string): Promise<DocumentType<RentalOfferEntity> | null> {
+  public async addFavoriteById(id: string): Promise<DocumentType<OfferEntity> | null> {
     return this.rentalOfferModel
       .findByIdAndUpdate(id, { isFavorite: true }, { new: true })
       .populate(['host'])
       .exec();
   }
 
-  public async removeFavoriteById(id: string): Promise<DocumentType<RentalOfferEntity> | null> {
+  public async removeFavoriteById(id: string): Promise<DocumentType<OfferEntity> | null> {
     return this.rentalOfferModel
       .findByIdAndUpdate(id, { isFavorite: false }, { new: true })
       .populate(['host'])
       .exec();
   }
 
-  public async incCommentsCount(id: string): Promise<DocumentType<RentalOfferEntity> | null> {
+  public async incCommentsCount(id: string): Promise<DocumentType<OfferEntity> | null> {
     return this.rentalOfferModel
       .findByIdAndUpdate(id, {
         '$inc': {
@@ -97,7 +97,7 @@ export class DefaultRentalOfferService implements RentalOfferService {
       .exists({ _id: documentId })) !== null;
   }
 
-  public async calculateTotalRating(id: string, newRating: number, newCommentsCount: number): Promise<DocumentType<RentalOfferEntity> | null> {
+  public async calculateTotalRating(id: string, newRating: number, newCommentsCount: number): Promise<DocumentType<OfferEntity> | null> {
     const offer = await this.rentalOfferModel.findById(id).exec();
 
     if (!offer) {
