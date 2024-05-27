@@ -8,3 +8,4 @@ export * from './rdo/offer.rdo.js';
 export * from './dto/update-offer.dto.js';
 export * from './rdo/full-offer.rdo.js';
 export * from './rdo/offer.rdo.js';
+export * from './types/param-offer-id.type.js';

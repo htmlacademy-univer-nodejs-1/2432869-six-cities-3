@@ -1,6 +1,6 @@
-import { Convenience, Conveniences, HousingType, HousingTypes, RentalOffer, UserType } from '../types/index.js';
+import { Convenience, Conveniences, HousingType, HousingTypes, Offer, UserType } from '../types/index.js';
 
-export function createOffer(offerData: string): RentalOffer {
+export function createOffer(offerData: string): Offer {
   const [
     title,
     decsription,

@@ -1,18 +1,22 @@
-import { Expose } from 'class-transformer';
-import { Convenience, HousingType } from '../../../types/index.js';
+import { Expose, Type } from 'class-transformer';
+import { City, Coordinates } from '../../../types';
+import { UserRdo } from '../../user';
 
 export class FullOfferRdo {
+  @Expose()
+  public id: string;
+
   @Expose()
   public title: string;
 
   @Expose()
   public description: string;
 
-  // @Expose()
-  // public date: Date;
+  @Expose()
+  public postDate: string;
 
   @Expose()
-  public city: string;
+  public city: City;
 
   @Expose()
   public previewImage: string;
@@ -30,7 +34,7 @@ export class FullOfferRdo {
   public rating: number;
 
   @Expose()
-  public type: HousingType;
+  public type: string;
 
   @Expose()
   public bedrooms: number;
@@ -42,15 +46,15 @@ export class FullOfferRdo {
   public price: number;
 
   @Expose()
-  public goods: Convenience[];
+  public goods: string[];
 
   @Expose()
-  public host: string;
+  @Type(() => UserRdo)
+  public host: UserRdo;
 
   @Expose()
-  public commentsCount: number;
+  public commentCount: number;
 
   @Expose()
-  public location: string;
-
+  public location: Coordinates;
 }

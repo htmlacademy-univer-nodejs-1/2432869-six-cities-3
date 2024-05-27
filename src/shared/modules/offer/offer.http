@@ -1,11 +1,11 @@
-# Предложения
-## Получить список предложений
+# Объявления
+## Получить список объявлений
 GET http://localhost:5000/offers HTTP/1.1
 Content-Type: application/json
 
 ###
 
-## Создать предложение
+## Создать объявление
 # POST http://localhost:5000/offers HTTP/1.1
 # Content-Type: application/json
 
@@ -29,39 +29,31 @@ Content-Type: application/json
 #   "postDate": "10.03.2000",
 # }
 
-# ###
+###
 
-## Получить предложение
-# GET http://localhost:5000/:offerId HTTP/1.1
-# Content-Type: application/json
+# Получить объявление
+GET http://localhost:5000/offers/someofferid HTTP/1.1
+Content-Type: application/json
 
-# {
-#   "title": "Some title",
-# }
+###
 
-# ###
+## Изменить объявление
+PATCH http://localhost:5000/offers/someofferid HTTP/1.1
+Content-Type: application/json
 
-## Изменить предложение
-# PATCH http://localhost:5000/:offerId HTTP/1.1
-# Content-Type: application/json
-
-# {
-#   "title": "Some title",
-# }
+{
+  "title": "Some another title",
+}
 
 # ###
 
-## Удалить предложение
-# DELETE http://localhost:5000/:offerId HTTP/1.1
-# Content-Type: application/json
-
-# {
-#   "title": "Some title",
-# }
+# Удалить объявление
+DELETE http://localhost:5000/offers/someofferid HTTP/1.1
+Content-Type: application/json
 
 # ###
 
-## Получить премиумные предложение
+## Получить список премиумныъ объявлений
 # GET http://localhost:5000/premium HTTP/1.1
 # Content-Type: application/json
 
@@ -71,7 +63,7 @@ Content-Type: application/json
 
 # ###
 
-## Получить сохранённые предложение
+## Получить список сохранённых объявлений
 # GET http://localhost:5000/favorites HTTP/1.1
 # Content-Type: application/json
 
@@ -81,8 +73,8 @@ Content-Type: application/json
 
 # ###
 
-## Сохранить предложение
-# POST http://localhost:5000/favorites/:offerId HTTP/1.1
+## Сохранить объявление
+# POST http://localhost:5000/favorites/someofferid HTTP/1.1
 # Content-Type: application/json
 
 # {
@@ -91,8 +83,8 @@ Content-Type: application/json
 
 # ###
 
-## Удалить из сохранённых предложение
-# DELETE http://localhost:5000/favorites/:offerId HTTP/1.1
+## Удалить из сохранённых объявление
+# DELETE http://localhost:5000/favorites/someofferid HTTP/1.1
 # Content-Type: application/json
 
 # {
@@ -100,3 +92,9 @@ Content-Type: application/json
 # }
 
 # ###
+
+## Получить список комментариев
+GET http://localhost:4000/offers/someofferid/comments HTTP/1.1
+Content-Type: application/json
+
+###

@@ -10,7 +10,7 @@ export interface CommentEntity extends defaultClasses.Base { }
   }
 })
 export class CommentEntity extends defaultClasses.TimeStamps {
-  @prop({ required: true, ref: OfferEntity })
+  @prop({ required: true, ref: OfferEntity, type: () => String })
   public offerId: Ref<OfferEntity>;
 
   @prop({ required: true, minlength: 5, maxlength: 1024, trim: true, type: () => String })
@@ -19,7 +19,7 @@ export class CommentEntity extends defaultClasses.TimeStamps {
   @prop({ required: true, min: 1, max: 5, type: () => Number })
   public rating: number;
 
-  @prop({ required: true, ref: UserEntity })
+  @prop({ required: true, ref: UserEntity, type: () => String })
   public userId: Ref<UserEntity>;
 }
 

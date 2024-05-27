@@ -5,7 +5,7 @@ import { TSVFileReader } from '../../shared/libs/file-reader/index.js';
 import { ConsoleLogger, Logger } from '../../shared/libs/logger/index.js';
 import { DefaultOfferService, OfferModel, OfferService } from '../../shared/modules/offer/index.js';
 import { DefaultUserService, UserModel, UserService } from '../../shared/modules/user/index.js';
-import { RentalOffer } from '../../shared/types/rental-offer.type.js';
+import { Offer } from '../../shared/types/offer.type.js';
 import { DEFAULT_DB_PORT, DEFAULT_USER_PASSWORD } from './command.constant.js';
 import { Command } from './command.interface.js';
 
@@ -65,7 +65,7 @@ export class ImportCommand implements Command {
     this.databaseClient.disconnect();
   }
 
-  private async saveOffer(offer: RentalOffer) {
+  private async saveOffer(offer: Offer) {
     await this.userService.findOrCreate({
       ...offer.author,
       password: DEFAULT_USER_PASSWORD
