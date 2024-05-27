@@ -5,8 +5,8 @@ import { CreateOfferDto } from './dto/create-offer.dto.js';
 import { inject, injectable } from 'inversify';
 import { Component, SortType } from '../../types/index.js';
 import { Logger } from '../../libs/logger/index.js';
-import { OfferRdo } from './rdo/offer.rdo.js';
 import { DEFAULT_OFFER_COUNT, DEFAULT_PREMIUM_OFFER_COUNT } from './offer.constant.js';
+import { UpdateOfferDto } from './dto/update-offer.dto.js';
 
 @injectable()
 export class DefaultOfferService implements OfferService {
@@ -54,7 +54,7 @@ export class DefaultOfferService implements OfferService {
       .exec();
   }
 
-  public async updateById(id: string, dto: OfferRdo): Promise<DocumentType<OfferEntity> | null> {
+  public async updateById(id: string, dto: UpdateOfferDto): Promise<DocumentType<OfferEntity> | null> {
     return this.rentalOfferModel
       .findByIdAndUpdate(id, dto, { new: true })
       .populate(['host'])

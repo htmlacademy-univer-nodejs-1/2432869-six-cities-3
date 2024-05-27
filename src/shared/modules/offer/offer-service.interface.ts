@@ -1,7 +1,7 @@
 import { DocumentType } from '@typegoose/typegoose';
 import { OfferEntity } from './offer.entity.js';
 import { CreateOfferDto } from './dto/create-offer.dto.js';
-import { OfferRdo } from './rdo/offer.rdo.js';
+import { UpdateOfferDto } from './dto/update-offer.dto.js';
 
 export interface OfferService {
   create(dto: CreateOfferDto): Promise<DocumentType<OfferEntity>>;
@@ -9,7 +9,7 @@ export interface OfferService {
   findById(id: string): Promise<DocumentType<OfferEntity> | null>;
   findByPremiumAndCity(city: string): Promise<DocumentType<OfferEntity>[] | null>;
   findByFavorite(): Promise<DocumentType<OfferEntity>[] | null>;
-  updateById(id: string, dto: OfferRdo): Promise<DocumentType<OfferEntity> | null>;
+  updateById(id: string, dto: UpdateOfferDto): Promise<DocumentType<OfferEntity> | null>;
   deleteById(id: string): Promise<DocumentType<OfferEntity> | null>;
   addFavoriteById(id: string): Promise<DocumentType<OfferEntity> | null>;
   removeFavoriteById(id: string): Promise<DocumentType<OfferEntity> | null>;

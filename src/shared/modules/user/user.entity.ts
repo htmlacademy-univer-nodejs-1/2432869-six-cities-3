@@ -25,15 +25,14 @@ export class UserEntity extends defaultClasses.TimeStamps implements User {
   @prop({
     required: false,
     match: [/^([\w-\\.]+@([\w-]+\.)+[\w-]{2,4})?$/, 'The file extension must be "jpg" or "png"'],
-    default: undefined, // добавить изображение по умолчаню
-    type: () => String
+    type: () => String // добавить изображение по умолчаню
   })
   public avatarPath?: string;
 
   @prop({ required: true, default: '', type: () => String })
   private password?: string;
 
-  @prop({ required: true, default: UserType.Common, type: () => String })
+  @prop({ required: true, enum: UserType, default: UserType.Common, type: () => String })
   public type: UserType;
 
   constructor(userData: User) {

@@ -2,6 +2,8 @@ import { Ref, defaultClasses, getModelForClass, modelOptions, prop } from '@type
 import { Convenience } from '../../types/convenience.enum.js';
 import { HousingType } from '../../types/housing-type.enum.js';
 import { UserEntity } from '../user/index.js';
+import { City } from '../../types/city.enum.js';
+import { Coordinates } from '../../types/coordinates.type.js';
 
 export interface OfferEntity extends defaultClasses.Base { }
 
@@ -17,16 +19,16 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   @prop({ required: true, trim: true, minlength: 20, maxlength: 1024, default: '', type: () => String })
   public description: string;
 
-  // @prop({ required: true, type: () => Date })
-  // public date: Date;
+  @prop({ required: true, type: () => Date })
+  public postDate: Date;
 
-  @prop({ required: true, type: () => String })
-  public city: string;
+  @prop({ required: true, enum: City, type: () => String })
+  public city: City;
 
   @prop({ required: true, type: () => String })
   public previewImage: string;
 
-  @prop({ required: true, type: () => Array<string> }) // сделать равным по длине 6
+  @prop({ required: true, default: [], type: () => Array<string> }) // сделать равным по длине 6
   public images: string[];
 
   @prop({ required: true, default: false, type: () => Boolean })
@@ -56,11 +58,11 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   @prop({ required: true, ref: UserEntity })
   public host: Ref<UserEntity>;
 
-  @prop({ required: true, min: 0, default: 0, type: () => Number })
+  @prop({ min: 0, default: 0, type: () => Number })
   public commentsCount: number;
 
-  @prop({ required: true, type: () => String })
-  public location: string;
+  @prop({ required: true, type: () => Object })
+  public location: Coordinates;
 }
 
 export const OfferModel = getModelForClass(OfferEntity);
