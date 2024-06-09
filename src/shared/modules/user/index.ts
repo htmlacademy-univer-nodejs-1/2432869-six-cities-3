@@ -10,3 +10,4 @@ export * from './rdo/logged-user.rdo.js';
 export * from './rdo/upload-user-avatar.rdo.js';
 export * from './types/create-user-request.type.js';
 export * from './types/login-user-request.type.js';
+export * from './user.constant.js';
