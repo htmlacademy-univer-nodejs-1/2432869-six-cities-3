@@ -11,7 +11,7 @@ export class CreateOfferDto {
   @MaxLength(1024, { message: CreateOfferValidationMessage.description.maxLength })
   public description: string;
 
-  @IsEnum(City, { message: CreateOfferValidationMessage.city.invalid })
+  @IsObject({ message: CreateOfferValidationMessage.city.invalidFormat })
   public city: City;
 
   public previewImage: string;
@@ -41,7 +41,7 @@ export class CreateOfferDto {
   public price: number;
 
   @IsArray({ message: CreateOfferValidationMessage.goods.invalidFormat })
-  @IsEnum(Convenience, { each: true, message: CreateOfferValidationMessage.goods.invalidAmenityFormat })
+  @IsEnum(Convenience, { each: true, message: CreateOfferValidationMessage.goods.invalidItemFormat })
   public goods: Convenience[];
 
   public host: string;

@@ -1,4 +1,5 @@
 # Объявления
+
 ## Получить список объявлений
 GET http://localhost:5000/offers HTTP/1.1
 Content-Type: application/json
@@ -6,95 +7,91 @@ Content-Type: application/json
 ###
 
 ## Создать объявление
-# POST http://localhost:5000/offers HTTP/1.1
-# Content-Type: application/json
+POST http://localhost:5000/offers HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6IjY2Njc0ZjJlOTdjNzA5OTgyOGVjNzBkOSIsIm5hbWUiOiJJdmFuIiwiZW1haWwiOiJzb21lbWVAZ21haWwuY29tIiwiaWF0IjoxNzE4MDQ2NTM1LCJleHAiOjE3MTgyMTkzMzV9.fmZ5ZCRnHO5iPCfYlXylaE1CJpaSZ87gcOLJh18gGNY
 
-# {
-#   "title": "Some title",
-#   "description": "Some description",
-#   "city": "Paris",
-#   "previewImage": "img",
-#   "images": ["photo1"],
-#   "isPremium": true,
-#   "isFavorite": true,
-#   "rating": 1,
-#   "type": "apartment",
-#   "bedrooms": 3,
-#   "maxAdults": 3,
-#   "price": 9900,
-#   "goods": ["Good view"],
-#   "host": "1",
-#   "latitude": 1,
-#   "longitude": 1
-#   "postDate": "10.03.2000",
-# }
+{
+  "title": "Some title",
+  "description": "Some description",
+  "city": {
+    "name": "Paris",
+    "location": {
+      "latitude": 48.85661,
+      "longitude": 2.351499
+    }
+  },
+  "isPremium": true,
+  "type": "apartment",
+  "bedrooms": 3,
+  "maxAdults": 3,
+  "price": 9900,
+  "goods": [
+    "Air conditioning",
+    "Washer"
+  ],
+  "location": {
+    "latitude": 48.85661,
+    "longitude": 2.351499
+  }
+}
 
 ###
 
-# Получить объявление
-GET http://localhost:5000/offers/someofferid HTTP/1.1
+## Получить объявление
+GET http://localhost:5000/offers/66673f8986d7f9cffcceb386 HTTP/1.1
 Content-Type: application/json
 
 ###
 
 ## Изменить объявление
-PATCH http://localhost:5000/offers/someofferid HTTP/1.1
+PATCH http://localhost:5000/offers/66673f8986d7f9cffcceb386 HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6IjY2Njc0ZjJlOTdjNzA5OTgyOGVjNzBkOSIsIm5hbWUiOiJJdmFuIiwiZW1haWwiOiJzb21lbWVAZ21haWwuY29tIiwiaWF0IjoxNzE4MDQ2NTM1LCJleHAiOjE3MTgyMTkzMzV9.fmZ5ZCRnHO5iPCfYlXylaE1CJpaSZ87gcOLJh18gGNY
 
 {
-  "title": "Some another title",
+  "title": "Some another title"
 }
 
-# ###
+###
 
-# Удалить объявление
-DELETE http://localhost:5000/offers/someofferid HTTP/1.1
+## Удалить объявление
+DELETE http://localhost:5000/offers/66673f8986d7f9cffcceb386 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6IjY2Njc0ZjJlOTdjNzA5OTgyOGVjNzBkOSIsIm5hbWUiOiJJdmFuIiwiZW1haWwiOiJzb21lbWVAZ21haWwuY29tIiwiaWF0IjoxNzE4MDQ2NTM1LCJleHAiOjE3MTgyMTkzMzV9.fmZ5ZCRnHO5iPCfYlXylaE1CJpaSZ87gcOLJh18gGNY
+
+###
+
+## Получить список премиумных объявлений
+GET http://localhost:5000/premium?city=Hamburg HTTP/1.1
 Content-Type: application/json
 
-# ###
-
-## Получить список премиумныъ объявлений
-# GET http://localhost:5000/premium HTTP/1.1
-# Content-Type: application/json
-
-# {
-#   "title": "Some title",
-# }
-
-# ###
+###
 
 ## Получить список сохранённых объявлений
-# GET http://localhost:5000/favorites HTTP/1.1
-# Content-Type: application/json
+GET http://localhost:5000/favorites HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6IjY2Njc0ZjJlOTdjNzA5OTgyOGVjNzBkOSIsIm5hbWUiOiJJdmFuIiwiZW1haWwiOiJzb21lbWVAZ21haWwuY29tIiwiaWF0IjoxNzE4MDQ2NTM1LCJleHAiOjE3MTgyMTkzMzV9.fmZ5ZCRnHO5iPCfYlXylaE1CJpaSZ87gcOLJh18gGNY
 
-# {
-#   "title": "Some title",
-# }
 
-# ###
+###
 
 ## Сохранить объявление
-# POST http://localhost:5000/favorites/someofferid HTTP/1.1
-# Content-Type: application/json
+POST http://localhost:5000/favorites/66673f8986d7f9cffcceb386 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6IjY2Njc0ZjJlOTdjNzA5OTgyOGVjNzBkOSIsIm5hbWUiOiJJdmFuIiwiZW1haWwiOiJzb21lbWVAZ21haWwuY29tIiwiaWF0IjoxNzE4MDQ2NTM1LCJleHAiOjE3MTgyMTkzMzV9.fmZ5ZCRnHO5iPCfYlXylaE1CJpaSZ87gcOLJh18gGNY
 
-# {
-#   "title": "Some title",
-# }
-
-# ###
+###
 
 ## Удалить из сохранённых объявление
-# DELETE http://localhost:5000/favorites/someofferid HTTP/1.1
-# Content-Type: application/json
+DELETE http://localhost:5000/favorites/66673f8986d7f9cffcceb386 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6IjY2Njc0ZjJlOTdjNzA5OTgyOGVjNzBkOSIsIm5hbWUiOiJJdmFuIiwiZW1haWwiOiJzb21lbWVAZ21haWwuY29tIiwiaWF0IjoxNzE4MDQ2NTM1LCJleHAiOjE3MTgyMTkzMzV9.fmZ5ZCRnHO5iPCfYlXylaE1CJpaSZ87gcOLJh18gGNY
 
-# {
-#   "title": "Some title",
-# }
-
-# ###
+###
 
 ## Получить список комментариев
-GET http://localhost:5000/offers/someofferid/comments HTTP/1.1
+GET http://localhost:5000/offers/66673f8986d7f9cffcceb386/comments HTTP/1.1
 Content-Type: application/json
 
 ###

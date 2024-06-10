@@ -1,8 +1,8 @@
 import { Expose } from 'class-transformer';
 
-export class UserRdo {
+export class LoginUserRdo {
   @Expose()
-  public id: string;
+  public token: string;
 
   @Expose()
   public name: string;

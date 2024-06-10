@@ -16,7 +16,7 @@ export class DefaultUserService implements UserService {
   ) { }
 
   public async create(dto: CreateUserDto, salt: string): Promise<DocumentType<UserEntity>> {
-    const user = new UserEntity({ ...dto, avatarPath: DEFAULT_AVATAR_FILE_NAME });
+    const user = new UserEntity({ ...dto, avatarUrl: DEFAULT_AVATAR_FILE_NAME });
     user.setPassword(dto.password, salt);
 
     const result = await this.userModel.create(user);
@@ -43,10 +43,8 @@ export class DefaultUserService implements UserService {
     return this.create(dto, salt);
   }
 
-  public async updateById(userId: string, dto: UploadAvatarDto): Promise<DocumentType<UserEntity> | null> {
-    return this.userModel
-      .findByIdAndUpdate(userId, dto, { new: true })
-      .exec();
+  public async uploadAvatarById(userId: string, dto: UploadAvatarDto): Promise<DocumentType<UserEntity> | null> {
+    return this.userModel.findByIdAndUpdate(userId, dto, { new: true }).exec();
   }
 
   public async exists(documentId: string): Promise<boolean> {

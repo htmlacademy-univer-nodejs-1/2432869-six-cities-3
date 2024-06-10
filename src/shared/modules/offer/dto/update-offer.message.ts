@@ -47,7 +47,7 @@ export const UpdateOfferValidationMessage = {
   },
   goods: {
     invalidFormat: 'goods must be an array',
-    invalidAmenityFormat: 'goods must be value from Convenience Enum'
+    invalidItemFormat: 'goods must be value from Convenience Enum'
   },
   location: {
     invalidFormat: 'location must be a valid Object',

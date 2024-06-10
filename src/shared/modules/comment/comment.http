@@ -1,14 +1,13 @@
 # Комментарии
 
 ## Создать комментарий
-POST http://localhost:5000/comments HTTP/1.1
+POST http://localhost:5000/offers/66673f8986d7f9cffcceb386/comments HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6IjY2Njc0ZjJlOTdjNzA5OTgyOGVjNzBkOSIsIm5hbWUiOiJJdmFuIiwiZW1haWwiOiJzb21lbWVAZ21haWwuY29tIiwiaWF0IjoxNzE4MDQ2NTM1LCJleHAiOjE3MTgyMTkzMzV9.fmZ5ZCRnHO5iPCfYlXylaE1CJpaSZ87gcOLJh18gGNY
 
 {
-  "offerId": "628a27d729c45f2bf9f6806a",
-  "comment": "Как обстоят дела с коробками? Фирменная упаковка сохранена?",
-  "rating": 4,
-  "userId": "628a27d729c45f2bf9f67ff2"
+  "comment": "Пять из пяти, на кончиках пальцев",
+  "rating": 5
 }
 
 ###

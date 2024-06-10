@@ -8,7 +8,7 @@ export const CreateOfferValidationMessage = {
     maxLength: 'Maximum description length must be 1024',
   },
   city: {
-    invalid: 'City must be value from City Enum',
+    invalidFormat: 'city must be an Object',
   },
   images: {
     invalidFormat: 'Images must be an array',
@@ -36,7 +36,7 @@ export const CreateOfferValidationMessage = {
   },
   goods: {
     invalidFormat: 'goods must be an array',
-    invalidAmenityFormat: 'goods must be value from Convenience Enum'
+    invalidItemFormat: 'goods must be value from Convenience Enum'
   },
   location: {
     invalidFormat: 'location must be a valid Object',
