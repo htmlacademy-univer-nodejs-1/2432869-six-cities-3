@@ -1,7 +1,7 @@
 import { IsString } from 'class-validator';
-import { UploadAvatarValidationMessage } from './upload-avatar.message';
+import { UploadAvatarValidationMessage } from './upload-avatar.message.js';
 
 export class UploadAvatarDto {
   @IsString({ message: UploadAvatarValidationMessage.avatarPath.invalidFormat })
-  public avatarPath?: string;
+  public avatarUrl: string;
 }

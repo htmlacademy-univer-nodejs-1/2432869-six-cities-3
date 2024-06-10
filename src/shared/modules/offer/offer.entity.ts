@@ -1,13 +1,16 @@
-import { Ref, defaultClasses, getModelForClass, modelOptions, prop } from '@typegoose/typegoose';
+import { Ref, Severity, defaultClasses, getModelForClass, modelOptions, prop } from '@typegoose/typegoose';
 import { Convenience } from '../../types/convenience.enum.js';
 import { HousingType } from '../../types/housing-type.enum.js';
 import { UserEntity } from '../user/index.js';
-import { City } from '../../types/city.enum.js';
+import { CityNames } from '../../types/city-names.enum.js';
 import { Coordinates } from '../../types/coordinates.type.js';
 
 export interface OfferEntity extends defaultClasses.Base { }
 
 @modelOptions({
+  options: {
+    allowMixed: Severity.ALLOW
+  },
   schemaOptions: {
     collection: 'offers'
   }
@@ -22,8 +25,8 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   @prop({ required: true, type: () => Date })
   public postDate: Date;
 
-  @prop({ required: true, enum: City, type: () => String })
-  public city: City;
+  @prop({ required: true, type: () => Object })
+  public city: CityNames;
 
   @prop({ required: true, type: () => String })
   public previewImage: string;
@@ -59,7 +62,7 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   public host: Ref<UserEntity>;
 
   @prop({ min: 0, default: 0, type: () => Number })
-  public commentsCount: number;
+  public commentCount: number;
 
   @prop({ required: true, type: () => Object })
   public location: Coordinates;

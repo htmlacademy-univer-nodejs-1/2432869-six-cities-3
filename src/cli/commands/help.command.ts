@@ -17,7 +17,8 @@ export class HelpCommand implements Command {
     console.log(chalk.blue(`
           --version:                   # выводит номер версии
           --help:                      # печатает этот текст
-          --import <path>:             # импортирует данные из TSV
-          --generate <n> <path> <url>  # генерирует произвольное количество тестовых данных`));
+          --import <path> <db-user-name> <db-user-password> <db-host> <db-name> <secret>:
+                                       # импортирует данные из TSV
+          --generate <n> <path> <url>  # генерирует указанное количество тестовых данных (url - адрес мок-сервера)`));
   }
 }

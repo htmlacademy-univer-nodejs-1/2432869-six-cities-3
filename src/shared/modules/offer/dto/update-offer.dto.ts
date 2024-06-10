@@ -66,7 +66,7 @@ export class UpdateOfferDto {
 
   @IsOptional()
   @IsArray({ message: UpdateOfferValidationMessage.goods.invalidFormat })
-  @IsEnum(Convenience, { each: true, message: UpdateOfferValidationMessage.goods.invalidAmenityFormat })
+  @IsEnum(Convenience, { each: true, message: UpdateOfferValidationMessage.goods.invalidItemFormat })
   public goods?: Convenience[];
 
   @IsOptional()

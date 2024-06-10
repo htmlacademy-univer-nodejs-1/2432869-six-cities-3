@@ -41,7 +41,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/user"
+                $ref: "#/components/schemas/userId"
         "400":
           description: Некорректный запрос.
         "409":
@@ -488,14 +488,24 @@ components:
           pattern: ^\S+@\S+\.\S+$
           example: user@mail.ru
 
+    userId:
+      type: object
+      required:
+        - id
+      properties:
+        name:
+          type: string
+          example: h8icya298yshca9
+
     avatar:
       type: object
       required:
         - avatar
       properties:
         avatar:
-          type: array
-          items: {}
+          type: string
+          format: binary
+          title: Image
 
     loginUser:
       type: object

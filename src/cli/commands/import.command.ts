@@ -43,10 +43,9 @@ export class ImportCommand implements Command {
 
     try {
       await fileReader.read();
-    } catch (err) {
-
+    } catch (error) {
       console.error(`Can't import data from file: ${filePath}`);
-      console.error(getErrorMessage(err));
+      console.error(getErrorMessage(error));
     }
   }
 
@@ -66,8 +65,8 @@ export class ImportCommand implements Command {
   }
 
   private async saveOffer(offer: Offer) {
-    await this.userService.findOrCreate({
-      ...offer.author,
+    const user = await this.userService.findOrCreate({
+      ...offer.host,
       password: DEFAULT_USER_PASSWORD
     }, this.salt);
 
@@ -75,15 +74,16 @@ export class ImportCommand implements Command {
       title: offer.title,
       description: offer.description,
       city: offer.city,
-      previewImage: offer.preview,
-      images: offer.photos,
-      isPremium: offer.premium,
+      previewImage: offer.previewImage,
+      images: offer.images,
+      isPremium: offer.isRremium,
       type: offer.type,
-      bedrooms: offer.roomsNumber,
-      maxAdults: offer.guestsNumber,
-      price: offer.cost,
-      goods: offer.conveniences,
-      location: offer.coordinates,
+      bedrooms: offer.bedrooms,
+      maxAdults: offer.maxAdults,
+      price: offer.price,
+      goods: offer.goods,
+      host: user.id,
+      location: offer.location,
     });
   }
 }
