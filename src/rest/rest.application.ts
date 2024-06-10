@@ -55,7 +55,7 @@ export class RestApplication {
 
     this.logger.info('Try to init server...');
     await this._initServer();
-    this.logger.info(`Server started on ${getFullServerPath(this.config.get('HOST'), this.config.get('PORT'))}`);
+    this.logger.info(`Server started on ${getFullServerPath(this.config.get('HOST'), port)}`);
   }
 
   private async _initDB() {
@@ -67,12 +67,6 @@ export class RestApplication {
       this.config.get('DB_NAME'),
     );
     return this.databaseClient.connect(mongoURI);
-  }
-
-  private async _initControllers() {
-    this.server.use('/comments', this.commentController.router);
-    this.server.use('/offers', this.offerController.router);
-    this.server.use('/users', this.userController.router);
   }
 
   private async _initMiddleware() {
@@ -91,6 +85,12 @@ export class RestApplication {
 
     this.server.use(authenticateMiddleware.execute.bind(authenticateMiddleware));
     this.server.use(cors());
+  }
+
+  private async _initControllers() {
+    this.server.use('', this.commentController.router);
+    this.server.use('', this.offerController.router);
+    this.server.use('', this.userController.router);
   }
 
   private async _initExceptionFilters() {

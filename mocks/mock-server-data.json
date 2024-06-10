@@ -9,9 +9,10 @@
       "Изба на курьих-ножках"
     ],
     "descriptions": [
-      "Some description. Some short description."
+      "Some description. Some short description.",
+      "Some another description. Some long description. Some very long description."
     ],
-    "cities": [
+    "cityNames": [
       "Paris",
       "Cologne",
       "Brussels",
@@ -19,7 +20,7 @@
       "Hamburg",
       "Dusseldorf"
     ],
-    "previews": [
+    "previewImages": [
       "city-house.jpg",
       "big-apartment.jpg",
       "flat.jpg",
@@ -27,7 +28,7 @@
       "cottage.jpg",
       "country-house.jpg"
     ],
-    "photos": [
+    "images": [
       "city-house.jpg",
       "big-apartment.jpg",
       "flat.jpg",
@@ -35,11 +36,11 @@
       "cottage.jpg",
       "country-house.jpg"
     ],
-    "premium": [
+    "isPremium": [
       false,
       true
     ],
-    "favorite": [
+    "isFavorite": [
       false,
       true
     ],
@@ -48,24 +49,24 @@
       "max": 5
     },
     "types": [
-      "Apartment",
-      "House",
-      "Room",
-      "Hotel"
+      "apartment",
+      "house",
+      "room",
+      "hotel"
     ],
-    "roomsNumber": {
+    "bedrooms": {
       "min": 1,
       "max": 5
     },
-    "guestsNumber": {
+    "maxAdults": {
       "min": 1,
       "max": 10
     },
-    "cost": {
+    "price": {
       "min": 100,
       "max": 100000
     },
-    "conveniences": [
+    "goods": [
       "Breakfast",
       "AirConditioning",
       "LaptopFriendlyWorkspace",
@@ -74,26 +75,38 @@
       "Towels",
       "Fridge"
     ],
-    "authors": [
-      "Иван Иванов",
-      "Олег Сидоров",
-      "Пьер Безухов",
-      "Роланд Дискейн",
-      "Холи Гибни",
-      "Джек Торренс",
-      "Антон Городецкий"
-    ],
-    "commentsCount": {
-      "min": 0,
-      "max": 10
-    },
-    "coordinates": [
+    "locations": [
       "48.85661;2.351499",
       "50.938361;6.959974",
       "50.846557;4.351697",
       "52.370216;4.895168",
       "53.550341;10.000654",
       "51.225402;6.776314"
+    ],
+    "hostNames": [
+      "Иван",
+      "Олег",
+      "Пьер",
+      "Роланд",
+      "Холи",
+      "Джек",
+      "Антон"
+    ],
+    "hostEmails": [
+      "some@mail.ru",
+      "cool@urfu.me",
+      "user@gmail.com",
+      "good@yandex.ru"
+    ],
+    "hostAvatarUrls": [
+      "man.jpg",
+      "women.jpg",
+      "helicopter.jpg",
+      "alien.jpg"
+    ],
+    "hostUserTypes": [
+      "regular",
+      "pro"
     ]
   }
 }

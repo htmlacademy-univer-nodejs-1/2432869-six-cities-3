@@ -1,6 +1,7 @@
 import { defaultClasses, getModelForClass, modelOptions, prop } from '@typegoose/typegoose';
 import { User, UserType } from '../../types/index.js';
 import { createSHA256 } from '../../helpers/index.js';
+import { DEFAULT_AVATAR_FILE_NAME } from './user.constant.js';
 
 export interface UserEntity extends defaultClasses.Base { }
 
@@ -22,17 +23,13 @@ export class UserEntity extends defaultClasses.TimeStamps implements User {
   })
   public email: string;
 
-  @prop({
-    required: false,
-    match: [/^([\w-\\.]+@([\w-]+\.)+[\w-]{2,4})?$/, 'The file extension must be "jpg" or "png"'],
-    type: () => String // добавить изображение по умолчаню
-  })
-  public avatarPath?: string;
+  @prop({ required: false, default: DEFAULT_AVATAR_FILE_NAME, type: () => String, })
+  public avatarUrl?: string;
 
   @prop({ required: true, default: '', type: () => String })
   private password?: string;
 
-  @prop({ required: true, enum: UserType, default: UserType.Common, type: () => String })
+  @prop({ required: true, enum: UserType, default: UserType.Regular, type: () => String })
   public type: UserType;
 
   constructor(userData: User) {
@@ -40,7 +37,7 @@ export class UserEntity extends defaultClasses.TimeStamps implements User {
 
     this.name = userData.name;
     this.email = userData.email;
-    this.avatarPath = userData.avatarPath;
+    this.avatarUrl = userData.avatarUrl;
     this.type = userData.type;
   }
 

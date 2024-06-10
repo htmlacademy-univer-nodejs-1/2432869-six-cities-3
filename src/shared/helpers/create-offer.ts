@@ -1,51 +1,61 @@
-import { Convenience, Conveniences, HousingType, HousingTypes, Offer, UserType } from '../types/index.js';
+import { City, CityNames, Convenience, HousingType, Offer, User, UserType } from '../types/index.js';
 
 export function createOffer(offerData: string): Offer {
   const [
     title,
-    decsription,
-    date,
-    city,
-    preview,
-    photos,
-    premium,
-    favorite,
+    description,
+    postDate,
+    cityName,
+    previewImage,
+    images,
+    isPremium,
+    isFavorite,
     rating,
     type,
-    roomsNumber,
-    guestsNumber,
-    cost,
-    conveniences,
-    authorName,
-    commentsCount,
-    coordinates
+    bedrooms,
+    maxAdults,
+    price,
+    goods,
+    coordinates,
+    hostName,
+    hostEmail,
+    hostAvatarUrl,
+    hostUserType
   ] = offerData.replace('\n', '').split('\t');
 
-  const author = {
-    name: authorName,
-    email: 'test@email.ru',
-    password: '123456',
-    type: UserType.Common,
+  const coordinatesTuple = coordinates.split(';');
+  const location = {
+    latitude: Number.parseFloat(coordinatesTuple[0]),
+    longitude: Number.parseFloat(coordinatesTuple[1])
+  };
+  const cityEntity: City = {
+    name: cityName as CityNames,
+    location: location
+  };
+  const host: User = {
+    name: hostName,
+    email: hostEmail,
+    avatarUrl: hostAvatarUrl,
+    type: hostUserType as UserType,
   };
 
   return {
     title,
-    description: decsription,
-    date: new Date(date),
-    city,
-    preview,
-    photos: photos.split(';'),
-    premium: !!premium,
-    favorite: !!favorite,
+    description: description,
+    postDate: new Date(postDate),
+    city: cityEntity,
+    previewImage: previewImage,
+    images: images.split(';'),
+    isRremium: !!isPremium,
+    isFavorite: !!isFavorite,
     rating: Number.parseFloat(rating),
-    type: HousingType[type as HousingTypes],
-    roomsNumber: +roomsNumber,
-    guestsNumber: +guestsNumber,
-    cost: +cost,
-    conveniences: conveniences.split(';')
-      .map((conv) => Convenience[conv as Conveniences]),
-    author,
-    commentsCount: +commentsCount,
-    coordinates: coordinates,
+    type: type as HousingType,
+    bedrooms: +bedrooms,
+    maxAdults: +maxAdults,
+    price: +price,
+    goods: goods.split(';')
+      .map((conv) => conv as Convenience),
+    host: host,
+    location: location,
   };
 }

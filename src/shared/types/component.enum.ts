@@ -1,9 +1,13 @@
 export const Component = {
-  RestApplication: Symbol.for('RestApplication'),
   Logger: Symbol.for('Logger'),
   Config: Symbol.for('Config'),
   DatabaseClient: Symbol.for('DatabaseClient'),
+
+  RestApplication: Symbol.for('RestApplication'),
   ExceptionFilter: Symbol.for('ExceptionFilter'),
+  HttpExceptionFilter: Symbol.for('HttpExceptionFilter'),
+  ValidationExceptionFilter: Symbol.for('ValidationExceptionFilter'),
+  PathTransformer: Symbol.for('PathTransformer'),
 
   UserService: Symbol.for('UserService'),
   UserModel: Symbol.for('UserModel'),
@@ -19,9 +23,4 @@ export const Component = {
 
   AuthService: Symbol.for('AuthService'),
   AuthExceptionFilter: Symbol.for('AuthExceptionFilter'),
-
-  HttpExceptionFilter: Symbol.for('HttpExceptionFilter'),
-  ValidationExceptionFilter: Symbol.for('ValidationExceptionFilter'),
-
-  PathTransformer: Symbol.for('PathTransformer'),
 } as const;

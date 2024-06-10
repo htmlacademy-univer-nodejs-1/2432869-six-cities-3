@@ -23,22 +23,22 @@ export class OfferController extends BaseController {
 
     this.logger.info('Register routes for OfferController…');
 
-    this.addRoute({ path: '/', method: HttpMethod.Get, handler: this.index });
+    this.addRoute({ path: '/offers', method: HttpMethod.Get, handler: this.index });
     this.addRoute({
-      path: '/',
+      path: '/offers',
       method: HttpMethod.Post,
       handler: this.create,
       middlewares: [new PrivateRouteMiddleware(), new ValidateDtoMiddleware(CreateOfferDto)]
     });
 
     this.addRoute({
-      path: '/:offerId',
+      path: '/offers/:offerId',
       method: HttpMethod.Get,
       handler: this.show,
       middlewares: [new ValidateObjectIdMiddleware('offerId'), new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId')]
     });
     this.addRoute({
-      path: '/:offerId',
+      path: '/offers/:offerId',
       method: HttpMethod.Patch,
       handler: this.update,
       middlewares: [
@@ -49,7 +49,7 @@ export class OfferController extends BaseController {
       ]
     });
     this.addRoute({
-      path: '/:offerId',
+      path: '/offers/:offerId',
       method: HttpMethod.Delete,
       handler: this.delete,
       middlewares: [
@@ -88,7 +88,7 @@ export class OfferController extends BaseController {
     });
 
     this.addRoute({
-      path: '/:offerId/comments',
+      path: '/offers/:offerId/comments',
       method: HttpMethod.Get,
       handler: this.showComments,
       middlewares: [new ValidateObjectIdMiddleware('offerId'), new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId')]
@@ -113,7 +113,7 @@ export class OfferController extends BaseController {
 
   public async update({ body, params }: Request<ParamOfferId, unknown, UpdateOfferDto>, res: Response): Promise<void> {
     const { offerId } = params;
-    const updatedOffer = await this.offerService.updateById(offerId as string, body);
+    const updatedOffer = await this.offerService.updateById(offerId, body);
 
     this.ok(res, fillDTO(FullOfferRdo, updatedOffer));
   }
@@ -144,14 +144,6 @@ export class OfferController extends BaseController {
 
   public async showFavorites(_req: Request, res: Response): Promise<void> {
     const favorites = await this.offerService.findByFavorite();
-
-    // if () {
-    //   throw new HttpError(
-    //     StatusCodes.UNAUTHORIZED,
-    //     'Unauthorized.',
-    //     'OfferController'
-    //   );
-    // }
 
     this.ok(res, fillDTO(FullOfferRdo, favorites));
   }

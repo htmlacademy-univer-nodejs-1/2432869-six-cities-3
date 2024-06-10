@@ -13,8 +13,9 @@ import { LoginUserRequest } from './types/login-user-request.type.js';
 import { CreateUserDto } from './dto/create-user.dto.js';
 import { LoginUserDto } from './dto/login-user.dto.js';
 import { AuthService } from '../auth/index.js';
-import { LoggedUserRdo } from './rdo/logged-user.rdo.js';
-import { UploadUserAvatarRdo } from './rdo/upload-user-avatar.rdo.js';
+import { LoginUserRdo } from './rdo/login-user.rdo.js';
+import { UploadAvatarRdo } from './rdo/upload-avatar.rdo.js';
+import { RegisterUserRdo } from './rdo/register-user.rdo.js';
 
 @injectable()
 export class UserController extends BaseController {
@@ -67,15 +68,18 @@ export class UserController extends BaseController {
     }
 
     const result = await this.userService.create(body, this.configService.get('SALT'));
-    this.created(res, fillDTO(UserRdo, result));
+    this.created(res, fillDTO(RegisterUserRdo, result));
   }
 
   public async login({ body }: LoginUserRequest, res: Response): Promise<void> {
     const user = await this.authService.verify(body);
     const token = await this.authService.authenticate(user);
-    const responseData = fillDTO(LoggedUserRdo, {
-      email: user.email,
+    const responseData = fillDTO(LoginUserRdo, {
       token,
+      name: user.name,
+      email: user.email,
+      avatarUrl: user.avatarUrl,
+      type: user.type,
     });
     this.ok(res, responseData);
   }
@@ -92,17 +96,19 @@ export class UserController extends BaseController {
       );
     }
 
-    this.ok(res, fillDTO(LoggedUserRdo, foundedUser));
+    this.ok(res, fillDTO(UserRdo, foundedUser));
   }
 
   public async logout(_req: Request, res: Response): Promise<void> {
     this.ok(res, null);
   }
 
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore:
   public async uploadAvatar({ params, file }: Request, res: Response) {
     const { userId } = params;
-    const uploadFile = { avatarPath: file?.filename };
-    await this.userService.updateById(userId, uploadFile);
-    this.created(res, fillDTO(UploadUserAvatarRdo, { filepath: uploadFile.avatarPath }));
+    const uploadAvatar = { avatarUrl: file?.filename };
+    await this.userService.uploadAvatarById(userId, uploadAvatar);
+    this.created(res, fillDTO(UploadAvatarRdo, { avatarUrl: uploadAvatar.avatarUrl }));
   }
 }
