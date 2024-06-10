@@ -13,5 +13,6 @@ export * from './mock-server-data.type.js';
 export * from './limited-number.type.js';
 export * from './component.enum.js';
 export * from './sort-type.enum.js';
-export * from './http-method.enum.js';
-export * from './city.enum.js';
+export * from '../../rest/types/http-method.enum.js';
+export * from './city-names.enum.js';
+export * from './city.type.js';

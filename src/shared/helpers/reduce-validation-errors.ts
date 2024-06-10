@@ -1,5 +1,5 @@
 import { ValidationError } from 'class-validator';
-import { ValidationErrorField } from '../../rest/types/validation-error-field.type';
+import { ValidationErrorField } from '../../rest/types/validation-error-field.type.js';
 
 export function reduceValidationErrors(errors: ValidationError[]): ValidationErrorField[] {
   return errors.map(({ property, value, constraints }) => ({
